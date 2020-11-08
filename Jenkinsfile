@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        registry = '768362009725.dkr.ecr.us-east-1.amazonaws.com/capstone_udacity_project:latest'
+        aws_registry = '664117675373.dkr.ecr.us-east-1.amazonaws.com/udacity:latest'
     }
     stages {
     
@@ -15,5 +15,29 @@ pipeline {
 				sh "hadolint Dockerfile"
 			}
 		}
+		
+		stage("Build Docker Image") {
+            steps {
+                sh "docker build -t HelloWorldApp ."
+                sh "docker tag HelloWorldApp ${aws_registry}"
+            }
+        }
+        
+        stage("Login to AWS ECR") {
+            steps {
+                withAWS(region:'us-west-2',credentials:'aws-static') {
+                    script {
+                        def login = ecrLogin()
+                        sh "${login}"
+                    }
+                }
+            }
+        }
+        
+        stage("Push Docker AWS ECR") {
+            steps {
+                sh "docker push ${registry}"
+            }
+        }
     }
 }
