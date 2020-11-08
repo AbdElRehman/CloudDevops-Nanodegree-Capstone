@@ -25,7 +25,12 @@ pipeline {
         
         stage("Login to AWS ECR") {
             steps {
-                sh "eval $(aws ecr get-login --no-include-email | sed 's|https://||')"
+                withAWS(region:'us-west-2',credentials:'aws-static') {
+                    script {
+                        def login = ecrLogin()
+                        sh "${login}"
+                    }
+                }
             }
         }
         
