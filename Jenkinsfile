@@ -45,7 +45,7 @@ pipeline {
 				withAWS(credentials:'aws-static') {
 				    //Configures kubectl so that you can connect to an Amazon EKS cluster
 					
-					sh "aws eks --region us-west-2 update-kubeconfig --name EKS_Cluster"
+					sh "aws eks --region us-east-1 update-kubeconfig --name UdacityCapStone-Cluster"
 					// Configure deployment
 					
 					sh "kubectl apply -f KES_Deployment/Deployment.yml"
