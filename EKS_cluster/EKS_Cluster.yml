@@ -1,0 +1,49 @@
+  
+Description: >
+  This project is script is for creating EKS cluster
+  
+Parameters:
+    
+    EnvironmentName:
+            Description: An environment name that will be prefixed to resource names
+            Type: String
+        
+    ClusterName:
+            Description: The name of the cluster.
+            Type: String
+
+Resources:
+  ClusterRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - eks.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonEKSServicePolicy
+        - arn:aws:iam::aws:policy/AmazonEKSClusterPolicy
+
+  KubernetesCluster:
+    Type: AWS::EKS::Cluster
+    Properties:
+      Name: !Ref ClusterName
+      ResourcesVpcConfig:
+        SecurityGroupIds:
+          - Fn::ImportValue: !Sub "${EnvironmentName}-SecurityGroups"
+        SubnetIds:
+          - Fn::ImportValue: !Sub "${EnvironmentName}-PUB1-SN"
+          - Fn::ImportValue: !Sub "${EnvironmentName}-PUB2-SN"
+      RoleArn: !GetAtt ClusterRole.Arn
+
+Outputs:
+  K8SCluster:
+    Description: EKS Cluster Name
+    Value: !Ref KubernetesCluster
+    Export:
+      Name: !Sub "${EnvironmentName}-Cluster"

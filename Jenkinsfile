@@ -49,9 +49,6 @@ pipeline {
 					// Configure deployment
 					
 					sh "kubectl apply -f KES_Deployment/Deployment.yml"
-					// Configure service
-					
-					sh "kubectl apply -f KES_Deployment/Service.yml"
 					
 				}
           }
