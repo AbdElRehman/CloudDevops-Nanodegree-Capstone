@@ -36,7 +36,7 @@ pipeline {
         
         stage("Push Docker AWS ECR") {
             steps {
-                sh "docker push ${registry}"
+                sh "docker push ${aws_registry}"
             }
         }
     }
