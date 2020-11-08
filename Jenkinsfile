@@ -40,9 +40,9 @@ pipeline {
             }
         }
       
-        stage('K8S Deploy') {
+        stage('Deploy Docker Image') {
             steps {
-				withAWS(credentials: 'jenkins', region: 'us-west-2') {
+				withAWS(credentials:'aws-static') {
 				    //Configures kubectl so that you can connect to an Amazon EKS cluster
 					
 					sh "aws eks --region us-west-2 update-kubeconfig --name EKS_Cluster"
