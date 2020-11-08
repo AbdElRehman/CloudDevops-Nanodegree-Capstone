@@ -25,7 +25,7 @@ pipeline {
         
         stage("Login to AWS ECR") {
             steps {
-                withAWS(region:'us-west-2',credentials:'aws-static') {
+                withAWS(credentials:'aws-static') {
                     script {
                         def login = ecrLogin()
                         sh "${login}"
