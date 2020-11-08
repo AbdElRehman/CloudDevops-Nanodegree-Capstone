@@ -39,5 +39,22 @@ pipeline {
                 sh "docker push ${aws_registry}"
             }
         }
+      
+        stage('K8S Deploy') {
+            steps {
+				withAWS(credentials: 'jenkins', region: 'us-west-2') {
+				    //Configures kubectl so that you can connect to an Amazon EKS cluster
+					
+					sh "aws eks --region us-west-2 update-kubeconfig --name EKS_Cluster"
+					// Configure deployment
+					
+					sh "kubectl apply -f KES_Deployment/Deployment.yml"
+					// Configure service
+					
+					sh "kubectl apply -f KES_Deployment/Service.yml"
+					
+				}
+          }
+        }
     }
 }
