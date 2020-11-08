@@ -94,9 +94,9 @@ Resources:
             VpcId: !Ref VPC
             Tags:
                 - Key: Name
-                Value: !Sub ${EnvironmentName} Public Subnets
+                  Value: !Sub ${EnvironmentName} Public Subnets
     Route:
-        DependsOn: VPCGatewayAttachment
+        DependsOn: InternetGatewayAttachment
         Type: AWS::EC2::Route
         Properties:
             RouteTableId: !Ref RouteTable
@@ -164,4 +164,4 @@ Outputs:
         Description: Security group for the cluster control plane communication with worker nodes
         Value: !Join [",", [!Ref ControlPlaneSecurityGroup]]
         Export:
-        Name: !Sub "${EnvironmentName}-SecurityGroups"
+          Name: !Sub ${EnvironmentName}-SecurityGroups
