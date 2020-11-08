@@ -19,7 +19,7 @@ pipeline {
 		stage("Build Docker Image") {
             steps {
                 sh "docker build -t helloworldapp ."
-                sh "docker tag helloworldapp ${aws_registry}"
+                sh "docker tag helloworldapp:latest ${aws_registry}"
             }
         }
         
