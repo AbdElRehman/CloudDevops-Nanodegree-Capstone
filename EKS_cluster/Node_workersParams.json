@@ -1,0 +1,14 @@
+[
+	{
+		"ParameterKey": "EnvironmentName",
+		"ParameterValue": "HelloWorldApp"
+	},
+	{
+		"ParameterKey": "ClusterName",
+		"ParameterValue": "UdacityCapStone-Cluster"
+	},
+	{
+	    "ParameterKey": "OnDemandBootstrapArguments",
+		"ParameterValue": "--kubelet-extra-args --node-labels=lifecycle=OnDemand"
+	}
+]

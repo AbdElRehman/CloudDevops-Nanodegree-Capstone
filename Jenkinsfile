@@ -42,14 +42,13 @@ pipeline {
       
         stage('Deploy Docker Image') {
             steps {
-				withAWS(credentials:'aws-static') {
+				withAWS(credentials:'aws-static',region: 'us-east-1') {
 				    //Configures kubectl so that you can connect to an Amazon EKS cluster
-					
 					sh "aws eks --region us-east-1 update-kubeconfig --name UdacityCapStone-Cluster"
+					
 					// Configure deployment
-					
 					sh "kubectl apply -f KES_Deployment/Deployment.yml"
-					
+					sh "kubectl get svc"
 				}
           }
         }
